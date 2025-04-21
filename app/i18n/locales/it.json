@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Soldatini"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Nome/produttore",
+    "resetFilters": "Reimposta tutti i filtri",
+    "material": "Materiale:",
+    "manufacturer": "Produttore:",
+    "scale": "Scala:",
+    "type": "Tipo:",
+    "showFavorites": "Mostra preferiti",
+    "showAll": "Mostra tutto"
+  },
+  "Overlay": {
+    "generalImage": "Immagine generale"
+  },
+  "materials": {
+    "plastic": "Plastica",
+    "metal": "Metallo"
+  },
+  "types": {
+    "flat": "Piatto",
+    "round": "Tondo"
+  }
+} 

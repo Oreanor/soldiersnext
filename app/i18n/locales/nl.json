@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Speelgoedsoldaten"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Naam/fabrikant",
+    "resetFilters": "Alle filters resetten",
+    "material": "Materiaal:",
+    "manufacturer": "Fabrikant:",
+    "scale": "Schaal:",
+    "type": "Type:",
+    "showFavorites": "Favorieten tonen",
+    "showAll": "Alles tonen"
+  },
+  "Overlay": {
+    "generalImage": "Algemene afbeelding"
+  },
+  "materials": {
+    "plastic": "Plastic",
+    "metal": "Metaal"
+  },
+  "types": {
+    "flat": "Plat",
+    "round": "Rond"
+  }
+} 

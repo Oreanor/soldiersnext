@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Солдатики"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Название/производитель",
+    "resetFilters": "Сбросить фильтры",
+    "material": "Материал:",
+    "manufacturer": "Производитель:",
+    "scale": "Масштаб:",
+    "type": "Тип:",
+    "showFavorites": "Избранное",
+    "showAll": "Показать все"
+  },
+  "Overlay": {
+    "generalImage": "Общее изображение"
+  },
+  "materials": {
+    "plastic": "Пластик",
+    "metal": "Металл"
+  },
+  "types": {
+    "flat": "Плоский",
+    "round": "Объемный"
+  }
+} 

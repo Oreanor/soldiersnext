@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Soldados de juguete"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Nombre/fabricante",
+    "resetFilters": "Restablecer todos los filtros",
+    "material": "Material:",
+    "manufacturer": "Fabricante:",
+    "scale": "Escala:",
+    "type": "Tipo:",
+    "showFavorites": "Mostrar favoritos",
+    "showAll": "Mostrar todo"
+  },
+  "Overlay": {
+    "generalImage": "Imagen general"
+  },
+  "materials": {
+    "plastic": "Plástico",
+    "metal": "Metal"
+  },
+  "types": {
+    "flat": "Plano",
+    "round": "Redondo"
+  }
+} 

@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Zinnsoldaten"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Name/Hersteller",
+    "resetFilters": "Alle Filter zurücksetzen",
+    "material": "Material:",
+    "manufacturer": "Hersteller:",
+    "scale": "Maßstab:",
+    "type": "Typ:",
+    "showFavorites": "Favoriten anzeigen",
+    "showAll": "Alle anzeigen"
+  },
+  "Overlay": {
+    "generalImage": "Allgemeines Bild"
+  },
+  "materials": {
+    "plastic": "Plastik",
+    "metal": "Metall"
+  },
+  "types": {
+    "flat": "Flach",
+    "round": "Rund"
+  }
+} 

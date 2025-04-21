@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Toy Soldiers"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Name/manufacturer",
+    "resetFilters": "Reset all filters",
+    "material": "Material:",
+    "manufacturer": "Manufacturer:",
+    "scale": "Scale:",
+    "type": "Type:",
+    "showFavorites": "Show Favorites",
+    "showAll": "Show All"
+  },
+  "Overlay": {
+    "generalImage": "General image"
+  },
+  "materials": {
+    "plastic": "Plastic",
+    "metal": "Metal"
+  },
+  "types": {
+    "flat": "Flat",
+    "round": "Round"
+  }
+} 

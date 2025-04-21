@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Soldats de plomb"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Nom/fabricant",
+    "resetFilters": "Réinitialiser tous les filtres",
+    "material": "Matériau:",
+    "manufacturer": "Fabricant:",
+    "scale": "Échelle:",
+    "type": "Type:",
+    "showFavorites": "Afficher les favoris",
+    "showAll": "Afficher tout"
+  },
+  "Overlay": {
+    "generalImage": "Image générale"
+  },
+  "materials": {
+    "plastic": "Plastique",
+    "metal": "Métal"
+  },
+  "types": {
+    "flat": "Plat",
+    "round": "Rond"
+  }
+} 

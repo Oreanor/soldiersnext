@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Soldadinhos de brinquedo"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Nome/fabricante",
+    "resetFilters": "Redefinir todos os filtros",
+    "material": "Material:",
+    "manufacturer": "Fabricante:",
+    "scale": "Escala:",
+    "type": "Tipo:",
+    "showFavorites": "Mostrar favoritos",
+    "showAll": "Mostrar todos"
+  },
+  "Overlay": {
+    "generalImage": "Imagem geral"
+  },
+  "materials": {
+    "plastic": "Plástico",
+    "metal": "Metal"
+  },
+  "types": {
+    "flat": "Plano",
+    "round": "Redondo"
+  }
+} 

@@ -1,0 +1,26 @@
+{
+  "App": {
+    "title": "Żołnierzyki"
+  },
+  "LeftPanel": {
+    "searchPlaceholder": "Nazwa/producent",
+    "resetFilters": "Resetuj wszystkie filtry",
+    "material": "Materiał:",
+    "manufacturer": "Producent:",
+    "scale": "Skala:",
+    "type": "Typ:",
+    "showFavorites": "Pokaż ulubione",
+    "showAll": "Pokaż wszystkie"
+  },
+  "Overlay": {
+    "generalImage": "Ogólny obraz"
+  },
+  "materials": {
+    "plastic": "Plastik",
+    "metal": "Metal"
+  },
+  "types": {
+    "flat": "Płaski",
+    "round": "Okrągły"
+  }
+} 
