@@ -1,12 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { ItemType } from '../../types';
 
 // Путь к файлу данных
 const dataFilePath = path.join(process.cwd(), 'app', 'data', 'data.json');
 
 // GET-маршрут для получения всех данных
-export async function GET() {
+export async function GET(
+): Promise<NextResponse> {
   try {
     // Проверяем, существует ли файл
     if (!fs.existsSync(dataFilePath)) {
@@ -15,7 +17,7 @@ export async function GET() {
 
     // Читаем файл
     const fileContent = fs.readFileSync(dataFilePath, 'utf8');
-    const data = JSON.parse(fileContent);
+    const data = JSON.parse(fileContent) as ItemType[];
 
     return NextResponse.json(data);
   } catch (error) {
@@ -25,9 +27,11 @@ export async function GET() {
 }
 
 // POST-маршрут для обновления данных
-export async function POST(request: Request) {
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse> {
   try {
-    const body = await request.json();
+    const body = await request.json() as ItemType[];
     
     // Записываем обновленные данные в файл
     fs.writeFileSync(dataFilePath, JSON.stringify(body, null, 2), 'utf8');

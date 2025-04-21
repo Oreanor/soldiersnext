@@ -10,7 +10,6 @@ export type ItemType = {
   type: string;
   desc?: string;
   figures?: { name: string; img: string }[];
-  [key: string]: any;
 };
 
 export interface OverlayProps {

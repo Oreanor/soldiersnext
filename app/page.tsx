@@ -151,7 +151,7 @@ function App() {
                          item.manufacturer.toLowerCase().includes(searchLower);
     const matchesTags = Object.entries(activeTags).every(([param, values]) => {
       if (values.length === 0) return true;
-      return values.includes(item[param as keyof typeof item]);
+      return values.includes(item[param as keyof typeof item] as string);
     });
     const matchesFavorites = !showFavorites || favorites.includes(item.id.toString());
     return matchesSearch && matchesTags && matchesFavorites;

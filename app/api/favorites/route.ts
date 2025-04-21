@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
@@ -6,7 +6,8 @@ import path from 'path';
 const favoritesFilePath = path.join(process.cwd(), 'app', 'data', 'favorites.json');
 
 // GET-маршрут для получения всех избранных элементов
-export async function GET() {
+export async function GET(
+): Promise<NextResponse> {
   try {
     // Проверяем, существует ли файл
     if (!fs.existsSync(favoritesFilePath)) {
@@ -27,7 +28,9 @@ export async function GET() {
 }
 
 // POST-маршрут для добавления элемента в избранное
-export async function POST(request: Request) {
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse> {
   try {
     const { id } = await request.json();
     
@@ -58,7 +61,9 @@ export async function POST(request: Request) {
 }
 
 // DELETE-маршрут для удаления элемента из избранного
-export async function DELETE(request: Request) {
+export async function DELETE(
+  request: NextRequest
+): Promise<NextResponse> {
   try {
     const { id } = await request.json();
     
