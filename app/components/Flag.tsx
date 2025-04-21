@@ -1,4 +1,3 @@
-import React from 'react';
 import { FLAGS } from '../consts';
 
 interface FlagProps {
@@ -6,20 +5,34 @@ interface FlagProps {
   className?: string;
 }
 
-const Flag: React.FC<FlagProps> = ({ code, className = '' }) => {
-  // Create a data URL from the SVG string
-  const svgString = FLAGS[code as keyof typeof FLAGS] || '';
-  const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
-  const svgUrl = URL.createObjectURL(svgBlob);
-
+export default function Flag({ code, className = '' }: FlagProps) {
+  // Extract the path data from the SVG string
+  const flagSvg = FLAGS[code.toLowerCase() as keyof typeof FLAGS];
+  const pathMatch = flagSvg.match(/<path[^>]*>/g);
+  
   return (
-    <img 
-      src={svgUrl}
-      alt={`${code.toUpperCase()} flag`}
-      className={`inline-block w-4 h-3 ${className}`}
-      onLoad={() => URL.revokeObjectURL(svgUrl)}
-    />
+    <div className={`relative w-4 h-2.5 ${className}`}>
+      <svg 
+        viewBox="0 0 640 480" 
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-full"
+      >
+        {pathMatch?.map((path, index) => (
+          <path key={index} {...extractPathAttributes(path)} />
+        ))}
+      </svg>
+    </div>
   );
-};
+}
 
-export default Flag; 
+// Helper function to extract path attributes
+function extractPathAttributes(pathString: string): Record<string, string> {
+  const attributes: Record<string, string> = {};
+  const matches = pathString.matchAll(/(\w+)="([^"]*)"/g);
+  
+  for (const match of matches) {
+    attributes[match[1]] = match[2];
+  }
+  
+  return attributes;
+} 

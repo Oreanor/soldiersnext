@@ -22,5 +22,33 @@
   "types": {
     "flat": "Flat",
     "round": "Round"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "searchPlaceholder": "Search by name or manufacturer...",
+    "bulkDelete": "Delete Selected",
+    "deselectAll": "Deselect All",
+    "addNew": "Add New Item",
+    "card": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "noImage": "No image"
+    },
+    "form": {
+      "title": "Add New Item",
+      "editTitle": "Edit Item",
+      "name": "Name",
+      "manufacturer": "Manufacturer",
+      "scale": "Scale",
+      "year": "Year",
+      "folder": "Folder",
+      "image": "Image",
+      "description": "Description",
+      "material": "Material",
+      "type": "Type",
+      "save": "Save",
+      "cancel": "Cancel",
+      "chooseFile": "Choose JPG File"
+    }
   }
 } 

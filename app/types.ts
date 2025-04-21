@@ -12,6 +12,39 @@ export type ItemType = {
   figures?: { name: string; img: string }[];
 };
 
+export interface Figure {
+  name: string;
+  img: string;
+}
+
+export interface DataItem {
+  id: string;
+  name: string;
+  manufacturer: string;
+  scale: string;
+  year?: string;
+  folder: string;
+  img: string;
+  material: string;
+  type: string;
+  desc?: string;
+  figures: Figure[];
+}
+
+export interface Item {
+  id: number;
+  name: string;
+  manufacturer: string;
+  scale: string;
+  year?: string;
+  folder: string;
+  img: string;
+  material: string;
+  type: string;
+  desc?: string;
+  figures: Figure[];
+} 
+
 export interface OverlayProps {
   item: ItemType;
   onClose: () => void;
@@ -40,3 +73,4 @@ export interface LeftPanelProps {
   showFavorites: boolean;
   onToggleFavorites: () => void;
 } 
+

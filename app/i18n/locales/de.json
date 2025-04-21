@@ -1,6 +1,6 @@
 {
   "App": {
-    "title": "Zinnsoldaten"
+    "title": "Spielzeugsoldaten"
   },
   "LeftPanel": {
     "searchPlaceholder": "Name/Hersteller",
@@ -22,5 +22,33 @@
   "types": {
     "flat": "Flach",
     "round": "Rund"
+  },
+  "admin": {
+    "title": "Admin-Panel",
+    "searchPlaceholder": "Nach Name oder Hersteller suchen...",
+    "bulkDelete": "Ausgewählte löschen",
+    "deselectAll": "Auswahl aufheben",
+    "addNew": "Neues Element hinzufügen",
+    "card": {
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "noImage": "Kein Bild"
+    },
+    "form": {
+      "title": "Neues Element hinzufügen",
+      "editTitle": "Element bearbeiten",
+      "name": "Name",
+      "manufacturer": "Hersteller",
+      "scale": "Maßstab",
+      "year": "Jahr",
+      "folder": "Ordner",
+      "image": "Bild",
+      "description": "Beschreibung",
+      "material": "Material",
+      "type": "Typ",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "chooseFile": "JPG-Datei auswählen"
+    }
   }
 } 

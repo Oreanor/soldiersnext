@@ -1,6 +1,6 @@
 {
   "App": {
-    "title": "Soldadinhos de brinquedo"
+    "title": "Soldados de brinquedo"
   },
   "LeftPanel": {
     "searchPlaceholder": "Nome/fabricante",
@@ -10,7 +10,7 @@
     "scale": "Escala:",
     "type": "Tipo:",
     "showFavorites": "Mostrar favoritos",
-    "showAll": "Mostrar todos"
+    "showAll": "Mostrar tudo"
   },
   "Overlay": {
     "generalImage": "Imagem geral"
@@ -22,5 +22,33 @@
   "types": {
     "flat": "Plano",
     "round": "Redondo"
+  },
+  "admin": {
+    "title": "Painel de administração",
+    "searchPlaceholder": "Pesquisar por nome ou fabricante...",
+    "bulkDelete": "Excluir selecionados",
+    "deselectAll": "Remover seleção",
+    "addNew": "Adicionar novo item",
+    "card": {
+      "edit": "Editar",
+      "delete": "Excluir",
+      "noImage": "Sem imagem"
+    },
+    "form": {
+      "title": "Adicionar novo item",
+      "editTitle": "Editar item",
+      "name": "Nome",
+      "manufacturer": "Fabricante",
+      "scale": "Escala",
+      "year": "Ano",
+      "folder": "Pasta",
+      "image": "Imagem",
+      "description": "Descrição",
+      "material": "Material",
+      "type": "Tipo",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "chooseFile": "Escolher arquivo JPG"
+    }
   }
 } 

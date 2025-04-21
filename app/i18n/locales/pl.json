@@ -1,6 +1,6 @@
 {
   "App": {
-    "title": "Żołnierzyki"
+    "title": "Żołnierzyki zabawkowe"
   },
   "LeftPanel": {
     "searchPlaceholder": "Nazwa/producent",
@@ -13,7 +13,7 @@
     "showAll": "Pokaż wszystkie"
   },
   "Overlay": {
-    "generalImage": "Ogólny obraz"
+    "generalImage": "Obraz ogólny"
   },
   "materials": {
     "plastic": "Plastik",
@@ -22,5 +22,33 @@
   "types": {
     "flat": "Płaski",
     "round": "Okrągły"
+  },
+  "admin": {
+    "title": "Panel administracyjny",
+    "searchPlaceholder": "Szukaj po nazwie lub producencie...",
+    "bulkDelete": "Usuń zaznaczone",
+    "deselectAll": "Odznacz wszystko",
+    "addNew": "Dodaj nowy element",
+    "card": {
+      "edit": "Edytuj",
+      "delete": "Usuń",
+      "noImage": "Brak obrazu"
+    },
+    "form": {
+      "title": "Dodaj nowy element",
+      "editTitle": "Edytuj element",
+      "name": "Nazwa",
+      "manufacturer": "Producent",
+      "scale": "Skala",
+      "year": "Rok",
+      "folder": "Folder",
+      "image": "Obraz",
+      "description": "Opis",
+      "material": "Materiał",
+      "type": "Typ",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "chooseFile": "Wybierz plik JPG"
+    }
   }
 } 

@@ -21,6 +21,34 @@
   },
   "types": {
     "flat": "Piatto",
-    "round": "Tondo"
+    "round": "Rotondo"
+  },
+  "admin": {
+    "title": "Pannello di amministrazione",
+    "searchPlaceholder": "Cerca per nome o produttore...",
+    "bulkDelete": "Elimina selezionati",
+    "deselectAll": "Deseleziona tutto",
+    "addNew": "Aggiungi nuovo elemento",
+    "card": {
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "noImage": "Nessuna immagine"
+    },
+    "form": {
+      "title": "Aggiungi nuovo elemento",
+      "editTitle": "Modifica elemento",
+      "name": "Nome",
+      "manufacturer": "Produttore",
+      "scale": "Scala",
+      "year": "Anno",
+      "folder": "Cartella",
+      "image": "Immagine",
+      "description": "Descrizione",
+      "material": "Materiale",
+      "type": "Tipo",
+      "save": "Salva",
+      "cancel": "Annulla",
+      "chooseFile": "Scegli file JPG"
+    }
   }
 } 

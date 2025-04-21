@@ -22,5 +22,33 @@
   "types": {
     "flat": "Plat",
     "round": "Rond"
+  },
+  "admin": {
+    "title": "Beheerderspaneel",
+    "searchPlaceholder": "Zoeken op naam of fabrikant...",
+    "bulkDelete": "Geselecteerde verwijderen",
+    "deselectAll": "Selectie opheffen",
+    "addNew": "Nieuw item toevoegen",
+    "card": {
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "noImage": "Geen afbeelding"
+    },
+    "form": {
+      "title": "Nieuw item toevoegen",
+      "editTitle": "Item bewerken",
+      "name": "Naam",
+      "manufacturer": "Fabrikant",
+      "scale": "Schaal",
+      "year": "Jaar",
+      "folder": "Map",
+      "image": "Afbeelding",
+      "description": "Beschrijving",
+      "material": "Materiaal",
+      "type": "Type",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "chooseFile": "JPG-bestand kiezen"
+    }
   }
 } 

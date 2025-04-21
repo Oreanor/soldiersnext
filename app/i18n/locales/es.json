@@ -22,5 +22,33 @@
   "types": {
     "flat": "Plano",
     "round": "Redondo"
+  },
+  "admin": {
+    "title": "Panel de administración",
+    "searchPlaceholder": "Buscar por nombre o fabricante...",
+    "bulkDelete": "Eliminar seleccionados",
+    "deselectAll": "Quitar selección",
+    "addNew": "Añadir nuevo elemento",
+    "card": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "noImage": "Sin imagen"
+    },
+    "form": {
+      "title": "Añadir nuevo elemento",
+      "editTitle": "Editar elemento",
+      "name": "Nombre",
+      "manufacturer": "Fabricante",
+      "scale": "Escala",
+      "year": "Año",
+      "folder": "Carpeta",
+      "image": "Imagen",
+      "description": "Descripción",
+      "material": "Material",
+      "type": "Tipo",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "chooseFile": "Elegir archivo JPG"
+    }
   }
 } 

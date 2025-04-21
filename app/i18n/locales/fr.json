@@ -1,6 +1,6 @@
 {
   "App": {
-    "title": "Soldats de plomb"
+    "title": "Soldats de jouet"
   },
   "LeftPanel": {
     "searchPlaceholder": "Nom/fabricant",
@@ -22,5 +22,33 @@
   "types": {
     "flat": "Plat",
     "round": "Rond"
+  },
+  "admin": {
+    "title": "Panneau d'administration",
+    "searchPlaceholder": "Rechercher par nom ou fabricant...",
+    "bulkDelete": "Supprimer la sélection",
+    "deselectAll": "Tout désélectionner",
+    "addNew": "Ajouter un nouvel élément",
+    "card": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "noImage": "Pas d'image"
+    },
+    "form": {
+      "title": "Ajouter un nouvel élément",
+      "editTitle": "Modifier l'élément",
+      "name": "Nom",
+      "manufacturer": "Fabricant",
+      "scale": "Échelle",
+      "year": "Année",
+      "folder": "Dossier",
+      "image": "Image",
+      "description": "Description",
+      "material": "Matériau",
+      "type": "Type",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "chooseFile": "Choisir un fichier JPG"
+    }
   }
 } 

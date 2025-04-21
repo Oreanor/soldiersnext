@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverlayProps } from '../types';
 import { IMAGE_PATH } from '../consts';
+import Image from 'next/image';
 
 const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 }) => {
   const { t } = useTranslation();
@@ -13,8 +14,7 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
   const figureNames = [item.name, ...(item.figures?.map(f => f.name) || [])];
 
   const [mainIdx, setMainIdx] = useState(initialImageIndex);
-  const mainImg = images[mainIdx];
-
+  
   // Проверка URL при загрузке оверлея
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -75,11 +75,20 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
         <div className="font-bold text-2xl mb-2">{item.name}</div>
         <div className="text-gray-600 mb-2 italic">{[item.manufacturer, item.year, item.scale].filter(Boolean).join(', ')}</div>
         {item.desc && <div className="mb-4 text-gray-700 text-sm">{item.desc}</div>}
-        <img
-          src={`${IMAGE_PATH}/${item.folder}/${mainImg}`}
-          alt={figureNames[mainIdx] || t('Overlay.generalImage')}
-          className="w-full max-h-96 object-contain mb-2 rounded"
-        />
+        <div className="relative h-96">
+          {item.img ? (
+            <Image
+              src={`${IMAGE_PATH}/${item.folder}/${item.img}`}
+              alt={item.name}
+              fill
+              className="object-contain rounded"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded">
+              <span className="text-gray-400">{t('Overlay.noImage', 'No image')}</span>
+            </div>
+          )}
+        </div>
         <div className="text-center text-xs mb-2 min-h-[1.5em]">
           {mainIdx === 0 ? t('Overlay.generalImage') : (figureNames[mainIdx] || '')}
         </div>
@@ -89,10 +98,12 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
             <div className="flex flex-nowrap gap-2 overflow-x-auto p-4">
               {images.map((img, idx) => (
                 <div key={`${item.id}-${idx}`} className="relative" onClick={() => setMainIdx(idx)}>
-                  <img
+                  <Image
                     src={`${IMAGE_PATH}/${item.folder}/${img}`}
                     alt={figureNames[idx] || t('Overlay.generalImage')}
                     className={`w-24 h-24 object-contain rounded cursor-pointer ${mainIdx === idx ? 'ring-2 ring-blue-400' : ''}`}
+                    width={96}
+                    height={96}
                   />
                 </div>
               ))}
