@@ -1,7 +1,20 @@
 [
   {
+    "id": "nfq64n",
+    "name": "13123123",
+    "manufacturer": "Cherilea",
+    "scale": "1:18",
+    "year": "",
+    "folder": "4333333",
+    "img": "00.jpg",
+    "material": "plastic",
+    "type": "flat",
+    "desc": "",
+    "figures": []
+  },
+  {
     "id": 0,
-    "name": "Ковбои123111",
+    "name": "Ковбои111999",
     "manufacturer": "Арк Моделс",
     "scale": "1:32",
     "year": "2010-",
