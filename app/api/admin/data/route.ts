@@ -50,7 +50,8 @@ export async function POST(request: Request) {
   // Генерируем новый ID
   newItem.id = generateId()
   
-  data.push(newItem)
+  // Добавляем новый элемент в начало массива
+  data.unshift(newItem)
   await writeData(data)
   return NextResponse.json(newItem)
 }

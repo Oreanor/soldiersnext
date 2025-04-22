@@ -3,6 +3,14 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { DataItem } from '@/app/types'
 
+async function removeDirectory(dirPath: string) {
+  try {
+    await fs.rm(dirPath, { recursive: true, force: true })
+  } catch (error) {
+    console.error('Error removing directory:', error)
+  }
+}
+
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
     const url = new URL(request.url)
@@ -20,20 +28,27 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     // Read existing data
     const data = JSON.parse(await fs.readFile(dataPath, 'utf-8')) as DataItem[]
     
-    // Find and remove the item
-    const index = data.findIndex((i: DataItem) => i.id === id)
+    // Find and remove the item, приводим оба ID к строке для сравнения
+    const index = data.findIndex((i: DataItem) => String(i.id) === String(id))
     if (index === -1) {
       return NextResponse.json(
         { error: 'Item not found' },
         { status: 404 }
       )
     }
+
+    // Get the folder path before removing the item
+    const itemFolder = data[index].folder
+    const imagesPath = path.join(process.cwd(), 'public', 'data', 'images', itemFolder)
     
-    // Remove the item
+    // Remove the item from data
     data.splice(index, 1)
     
     // Write back to file
     await fs.writeFile(dataPath, JSON.stringify(data, null, 2))
+
+    // Remove the images folder
+    await removeDirectory(imagesPath)
     
     return NextResponse.json({ success: true })
   } catch (error) {
@@ -63,8 +78,8 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     // Read existing data
     const data = JSON.parse(await fs.readFile(dataPath, 'utf-8')) as DataItem[]
     
-    // Find and update the item
-    const index = data.findIndex((i: DataItem) => i.id === id)
+    // Find and update the item, приводим оба ID к строке для сравнения
+    const index = data.findIndex((i: DataItem) => String(i.id) === String(id))
     if (index === -1) {
       return NextResponse.json(
         { error: 'Item not found' },
@@ -72,7 +87,13 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       )
     }
     
-    data[index] = { ...data[index], ...item }
+    // Сохраняем оригинальный id и figures
+    data[index] = {
+      ...data[index],
+      ...item,
+      id: data[index].id,
+      figures: data[index].figures
+    }
     
     // Write back to file
     await fs.writeFile(dataPath, JSON.stringify(data, null, 2))

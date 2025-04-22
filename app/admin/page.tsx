@@ -118,13 +118,7 @@ export default function AdminPage() {
       await fetchData()
       setImageVersion(prev => prev + 1)
       setEditItem(null)
-
-      if (!item.id && listContainerRef.current) {
-        listContainerRef.current.scrollTo({
-          top: listContainerRef.current.scrollHeight,
-          behavior: 'smooth'
-        })
-      }
+      setSelectedItems(new Set())
     } catch (error) {
       console.error('Error saving item:', error)
       alert('Failed to save item: ' + (error as Error).message)

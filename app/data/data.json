@@ -1,7 +1,7 @@
 [
   {
     "id": 0,
-    "name": "Ковбои",
+    "name": "Ковбои123111",
     "manufacturer": "Арк Моделс",
     "scale": "1:32",
     "year": "2010-",
@@ -6556,7 +6556,7 @@
     "name": "Советская пехота",
     "manufacturer": "TSSD",
     "scale": "1:32",
-    "year": "111",
+    "year": "",
     "folder": "tssd/russians",
     "img": "00.jpg",
     "material": "plastic",
@@ -6594,20 +6594,6 @@
         "name": "",
         "img": "08.jpg"
       }
-    ],
-    "desc": "123123"
-  },
-  {
-    "id": "wriis3",
-    "name": "111",
-    "manufacturer": "Charbens",
-    "scale": "1:32",
-    "year": "",
-    "folder": "221212",
-    "img": "00.jpg",
-    "material": "plastic",
-    "type": "flat",
-    "desc": "22222ыывйыв йй",
-    "figures": []
+    ]
   }
 ]
