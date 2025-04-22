@@ -15,35 +15,43 @@ import nlTranslations from './locales/nl.json';
 import plTranslations from './locales/pl.json';
 import ukTranslations from './locales/uk.json';
 
-// Get saved language from localStorage or default to 'en'
-const savedLanguage = typeof window !== 'undefined' ? localStorage.getItem('language') || 'en' : 'en';
+const initI18next = async () => {
+  if (i18n.isInitialized) {
+    return i18n;
+  }
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: { translation: enTranslations },
-      ru: { translation: ruTranslations },
-      de: { translation: deTranslations },
-      fr: { translation: frTranslations },
-      es: { translation: esTranslations },
-      it: { translation: itTranslations },
-      pt: { translation: ptTranslations },
-      nl: { translation: nlTranslations },
-      pl: { translation: plTranslations },
-      uk: { translation: ukTranslations },
-    },
-    lng: savedLanguage,
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
-    detection: {
-      order: ['localStorage', 'navigator'],
-      lookupLocalStorage: 'language',
-      caches: ['localStorage'],
-    },
-  });
+  return i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      resources: {
+        en: { translation: enTranslations },
+        ru: { translation: ruTranslations },
+        de: { translation: deTranslations },
+        fr: { translation: frTranslations },
+        es: { translation: esTranslations },
+        it: { translation: itTranslations },
+        pt: { translation: ptTranslations },
+        nl: { translation: nlTranslations },
+        pl: { translation: plTranslations },
+        uk: { translation: ukTranslations },
+      },
+      lng: typeof localStorage !== 'undefined' ? localStorage.getItem('language') || 'en' : 'en',
+      fallbackLng: 'en',
+      interpolation: {
+        escapeValue: false,
+      },
+      detection: {
+        order: ['localStorage', 'navigator'],
+        lookupLocalStorage: 'language',
+        caches: ['localStorage'],
+      },
+    });
+};
+
+// Initialize i18next
+if (typeof window !== 'undefined') {
+  initI18next();
+}
 
 export default i18n; 

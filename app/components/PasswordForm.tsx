@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Spinner from './ui/Spinner';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector';
 
 interface PasswordFormProps {
   onAuthenticated: () => void;
@@ -9,6 +11,7 @@ export default function PasswordForm({ onAuthenticated }: PasswordFormProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isChecking, setIsChecking] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if already authenticated in this session
@@ -42,9 +45,14 @@ export default function PasswordForm({ onAuthenticated }: PasswordFormProps) {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white p-4 rounded shadow-md w-64">
-        <h1 className="text-lg font-bold mb-2">Введите пароль для доступа к админке</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
+        <div className="flex justify-between items-center">
+          <h2 className="text-center text-3xl font-extrabold text-gray-900">
+            {t('admin.login')}
+          </h2>
+          <LanguageSelector />
+        </div>
         <form onSubmit={handleSubmit}>
           <input
             type="password"

@@ -46,7 +46,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
           placeholder={t('LeftPanel.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full px-2 py-1 border border-gray-300 rounded"
         />
 
         <div className="flex gap-2">

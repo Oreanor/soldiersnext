@@ -19,30 +19,34 @@ const LanguageSelector: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleLanguageChange = (code: string) => {
-    i18n.changeLanguage(code);
-    localStorage.setItem('language', code);
-    setIsOpen(false);
+  const handleLanguageChange = async (code: string) => {
+    try {
+      await i18n.changeLanguage(code);
+      localStorage.setItem('language', code);
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Failed to change language:', error);
+    }
   };
 
   const currentLang = LANGUAGES.find(lang => lang.code === i18n.language) || LANGUAGES[0];
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative cursor-pointer" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 px-2 py-1 text-xs border border-gray-300 rounded cursor-pointer bg-white hover:bg-gray-50"
+        className="flex items-center gap-1 px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 bg-white"
       >
         <Flag code={currentLang.code} />
         <span>{currentLang.name}</span>
       </div>
       {isOpen && (
-        <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded shadow-lg z-10">
+        <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded shadow-lg z-[60]">
           {LANGUAGES.map((lang) => (
             <div
               key={lang.code}
               onClick={() => handleLanguageChange(lang.code)}
-              className="flex items-center gap-1 px-2 py-1 text-xs cursor-pointer hover:bg-gray-50"
+              className="flex items-center gap-1 px-2 py-1 text-sm cursor-pointer hover:bg-gray-50"
             >
               <Flag code={lang.code} />
               <span>{lang.name}</span>
