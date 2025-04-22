@@ -13,17 +13,20 @@ const Card: React.FC<CardProps> = ({ item, isFavorite = false, onToggleFavorite,
       className="w-full sm:w-[100%] md:w-full rounded-lg shadow p-2 sm:p-3 md:p-4 bg-white flex flex-col items-center cursor-pointer hover:shadow-lg transition relative mx-auto"
     >
       <FavoriteButton isFavorite={isFavorite} onClick={() => onToggleFavorite?.(item.id)} />
-      <div className="relative w-full aspect-[4/3] mb-4">
+      <div className="relative w-full pt-[75%] mb-4">
         {item.img ? (
-          <Image
-            src={`/data/images/${item.folder}/${item.img}?v=${0}`}
-            alt={item.name}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain rounded"
-          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Image
+              src={`/data/images/${item.folder}/${item.img}?v=${0}`}
+              alt={item.name}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-contain rounded"
+              priority
+            />
+          </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded">
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded">
             <span className="text-gray-400">{t('card.noImage', 'No image')}</span>
           </div>
         )}

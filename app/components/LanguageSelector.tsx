@@ -21,6 +21,7 @@ const LanguageSelector: React.FC = () => {
 
   const handleLanguageChange = (code: string) => {
     i18n.changeLanguage(code);
+    localStorage.setItem('language', code);
     setIsOpen(false);
   };
 

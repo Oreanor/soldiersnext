@@ -15,6 +15,9 @@ import nlTranslations from './locales/nl.json';
 import plTranslations from './locales/pl.json';
 import ukTranslations from './locales/uk.json';
 
+// Get saved language from localStorage or default to 'en'
+const savedLanguage = typeof window !== 'undefined' ? localStorage.getItem('language') || 'en' : 'en';
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -31,9 +34,15 @@ i18n
       pl: { translation: plTranslations },
       uk: { translation: ukTranslations },
     },
+    lng: savedLanguage,
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      lookupLocalStorage: 'language',
+      caches: ['localStorage'],
     },
   });
 

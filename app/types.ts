@@ -9,12 +9,13 @@ export type ItemType = {
   material: string;
   type: string;
   desc?: string;
-  figures?: { name: string; img: string }[];
+  figures?: { name: string; img: string; desc?: string }[];
 };
 
 export interface Figure {
   name: string;
   img: string;
+  desc?: string;
 }
 
 export interface DataItem {

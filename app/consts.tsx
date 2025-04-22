@@ -50,7 +50,7 @@ export const TAGS = {
 const svgAttrs = 'viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"';
 
 export const FLAGS = {
-  en: `<svg ${svgAttrs}><path fill="#012169" d="M0 0h640v480H0"/><path stroke="#fff" stroke-width="120" d="M0 240h640"/><path stroke="#fff" stroke-width="120" d="M320 0v480"/><path stroke="#c8102e" stroke-width="80" d="M0 240h640"/><path stroke="#c8102e" stroke-width="80" d="M320 0v480"/><path stroke="#fff" stroke-width="120" d="M0 0l640 480"/><path stroke="#fff" stroke-width="120" d="M640 0l-640 480"/><path stroke="#c8102e" stroke-width="80" d="M0 0l640 480"/><path stroke="#c8102e" stroke-width="80" d="M640 0l-640 480"/></svg>`,
+  en: `<svg ${svgAttrs}><path fill="#012169" d="M0 0h640v480H0"/><path fill="#fff" d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z"/><path fill="#C8102E" d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z"/><path fill="#fff" d="M241 0v480h160V0H241zM0 160v160h640V160H0z"/><path fill="#C8102E" d="M0 193v96h640v-96H0zM273 0v480h96V0h-96z"/></svg>`,
   ru: `<svg ${svgAttrs}><path fill="#fff" d="M0 0h640v480H0"/><path fill="#0039A6" d="M0 160h640v320H0"/><path fill="#D52B1E" d="M0 320h640v160H0"/></svg>`,
   de: `<svg ${svgAttrs}><path fill="#000" d="M0 0h640v160H0"/><path fill="#D00" d="M0 160h640v160H0"/><path fill="#FFCE00" d="M0 320h640v160H0"/></svg>`,
   fr: `<svg ${svgAttrs}><path fill="#002395" d="M0 0h213.3v480H0"/><path fill="#fff" d="M213.3 0h213.3v480H213.3"/><path fill="#ED2939" d="M426.6 0H640v480H426.6"/></svg>`,

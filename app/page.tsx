@@ -11,6 +11,7 @@ import { getUniqueTags } from './utils';
 import { useDebounce } from './utils/hooks';
 import { fetchItems, fetchFavorites, addToFavorites, removeFromFavorites } from './utils/api';
 import './i18n';
+import Spinner from './components/ui/Spinner'
 
 function App() {
   const [mounted, setMounted] = useState(false);
@@ -159,11 +160,11 @@ function App() {
 
   // Only render the full UI after the component has mounted
   if (!mounted) {
-    return <div className="flex w-full h-screen items-center justify-center">Loading...</div>;
+    return <Spinner fullScreen />;
   }
 
   if (loading) {
-    return <div className="flex w-full h-screen items-center justify-center">Loading data...</div>;
+    return <Spinner fullScreen />;
   }
 
   if (error) {

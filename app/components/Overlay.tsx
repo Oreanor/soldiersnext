@@ -74,36 +74,61 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
         </div>
         <div className="font-bold text-2xl mb-2">{item.name}</div>
         <div className="text-gray-600 mb-2 italic">{[item.manufacturer, item.year, item.scale].filter(Boolean).join(', ')}</div>
-        {item.desc && <div className="mb-4 text-gray-700 text-sm">{item.desc}</div>}
-        <div className="relative h-96">
-          {item.img ? (
-            <Image
-              src={`${IMAGE_PATH}/${item.folder}/${item.img}`}
-              alt={item.name}
-              fill
-              className="object-contain rounded"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded">
-              <span className="text-gray-400">{t('Overlay.noImage', 'No image')}</span>
+        {item.desc && mainIdx === 0 && <div className="mb-4 text-gray-700 text-sm">{item.desc}</div>}
+        
+        <div className="flex gap-4 mb-8 justify-center">
+          <div className="flex-1 max-w-[600px]">
+            <div className="relative aspect-square max-h-[50vh] w-full">
+              {images[mainIdx] ? (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Image
+                    src={`${IMAGE_PATH}/${item.folder}/${images[mainIdx]}`}
+                    alt={figureNames[mainIdx] || item.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain rounded"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded">
+                  <span className="text-gray-400">{t('Overlay.noImage', 'No image')}</span>
+                </div>
+              )}
+            </div>
+            <div className="text-center text-xs my-2 min-h-[1.5em]">
+              {mainIdx === 0 ? t('Overlay.generalImage') : (figureNames[mainIdx] || '')}
+            </div>
+          </div>
+          
+          {mainIdx > 0 && item.figures && item.figures[mainIdx - 1] && item.figures[mainIdx - 1].desc && (
+            <div className="w-64 shrink-0 flex flex-col h-[40vh]">
+              <div className="flex-1 overflow-y-auto">
+                <div className="text-sm text-gray-700 pr-2">
+                  {item.figures[mainIdx - 1].desc}
+                </div>
+              </div>
             </div>
           )}
         </div>
-        <div className="text-center text-xs mb-2 min-h-[1.5em]">
-          {mainIdx === 0 ? t('Overlay.generalImage') : (figureNames[mainIdx] || '')}
-        </div>
+
+        
         
         {images.length > 1 && (
           <div>
-            <div className="flex flex-nowrap gap-2 overflow-x-auto p-4">
+            <div className="flex flex-wrap gap-2 justify-center p-2">
               {images.map((img, idx) => (
-                <div key={`${item.id}-${idx}`} className="relative" onClick={() => setMainIdx(idx)}>
+                <div 
+                  key={`${item.id}-${idx}`} 
+                  className="relative w-[50px] h-[50px] cursor-pointer"
+                  onClick={() => setMainIdx(idx)}
+                >
                   <Image
                     src={`${IMAGE_PATH}/${item.folder}/${img}`}
                     alt={figureNames[idx] || t('Overlay.generalImage')}
-                    className={`w-24 h-24 object-contain rounded cursor-pointer ${mainIdx === idx ? 'ring-2 ring-blue-400' : ''}`}
-                    width={96}
-                    height={96}
+                    fill
+                    sizes="50px"
+                    className={`object-contain rounded ${mainIdx === idx ? 'ring-2 ring-blue-400' : ''}`}
                   />
                 </div>
               ))}

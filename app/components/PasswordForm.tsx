@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Spinner from './ui/Spinner';
 
 interface PasswordFormProps {
   onAuthenticated: () => void;
@@ -7,6 +8,16 @@ interface PasswordFormProps {
 export default function PasswordForm({ onAuthenticated }: PasswordFormProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    // Check if already authenticated in this session
+    const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+    if (isAuthenticated === 'true') {
+      onAuthenticated();
+    }
+    setIsChecking(false);
+  }, [onAuthenticated]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,11 +30,16 @@ export default function PasswordForm({ onAuthenticated }: PasswordFormProps) {
     });
 
     if (response.ok) {
+      sessionStorage.setItem('adminAuthenticated', 'true');
       onAuthenticated();
     } else {
       setError('Неверный пароль');
     }
   };
+
+  if (isChecking) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex items-center justify-center h-screen">

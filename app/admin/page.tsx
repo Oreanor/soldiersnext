@@ -7,6 +7,7 @@ import AdminHeader from '../components/AdminHeader'
 import { DataItem } from '../types'
 import { generateId } from '../utils/id'
 import PasswordForm from '../components/PasswordForm'
+import Spinner from '../components/ui/Spinner'
 
 export default function AdminPage() {
   const [data, setData] = useState<DataItem[]>([])
@@ -183,8 +184,8 @@ export default function AdminPage() {
     return <PasswordForm onAuthenticated={() => setIsAuthenticated(true)} />;
   }
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
+  if (loading) return <Spinner fullScreen />;
+  if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
 
   return (
     <div className="h-screen bg-gray-50 p-4 overflow-hidden">
