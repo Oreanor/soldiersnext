@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../consts';
-import Flag from './Flag';
+import Flag from './ui/Flag';
 
 const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();

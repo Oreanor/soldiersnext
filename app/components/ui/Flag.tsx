@@ -1,4 +1,4 @@
-import { FLAGS } from '../consts';
+import { FLAGS } from '../../consts';
 
 interface FlagProps {
   code: string;

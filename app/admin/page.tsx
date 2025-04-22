@@ -6,6 +6,7 @@ import { AdminItemForm } from '../components/AdminItemForm'
 import AdminHeader from '../components/AdminHeader'
 import { DataItem } from '../types'
 import { generateId } from '../utils/id'
+import PasswordForm from '../components/PasswordForm'
 
 export default function AdminPage() {
   const [data, setData] = useState<DataItem[]>([])
@@ -18,6 +19,8 @@ export default function AdminPage() {
   const [imageVersion, setImageVersion] = useState(0)
   const listContainerRef = useRef<HTMLDivElement>(null)
   const searchTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const [password, setPassword] = useState('')
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const existingManufacturers = useMemo(() => 
     Array.from(new Set(data.map(item => item.manufacturer))).sort(),
@@ -53,8 +56,10 @@ export default function AdminPage() {
   }, [])
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    if (isAuthenticated) {
+      fetchData()
+    }
+  }, [isAuthenticated, fetchData])
 
   useEffect(() => {
     if (searchTimeoutRef.current) {
@@ -174,6 +179,27 @@ export default function AdminPage() {
       setError(err instanceof Error ? err.message : 'Failed to delete items')
     }
   }, [selectedItems, fetchData])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const response = await fetch('/api/admin/check-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password }),
+    })
+
+    if (response.ok) {
+      setIsAuthenticated(true)
+    } else {
+      setError('Неверный пароль')
+    }
+  }
+
+  if (!isAuthenticated) {
+    return <PasswordForm onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>

@@ -2,7 +2,7 @@
 
 import './App.css'
 import { useState, useEffect } from 'react';
-import Card from './components/Card';
+import Card from './components/ui/Card';
 import Overlay from './components/Overlay';
 import LeftPanel from './components/LeftPanel';
 import { ItemType } from './types';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardProps } from '../types';
+import { CardProps } from '../../types';
 import FavoriteButton from './FavoriteButton';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';

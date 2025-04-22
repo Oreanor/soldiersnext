@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Tag from './Tag';
+import Tag from './ui/Tag';
+
 
 interface TagBlockProps {
   param: string;

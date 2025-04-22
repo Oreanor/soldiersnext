@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import Tag from './Tag';
+import Tag from './ui/Tag';
 import { TAGS } from '../consts';
 
 interface FilterSectionProps {
