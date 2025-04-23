@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ADD_ICON, DELETE_ICON } from '../consts';
 import LanguageSelector from './LanguageSelector';
+import { useState, useEffect } from 'react';
 
 interface AdminHeaderProps {
   searchQuery: string;
@@ -20,13 +21,27 @@ export default function AdminHeader({
   onAddNew
 }: AdminHeaderProps) {
   const { t } = useTranslation();
+  const [version, setVersion] = useState<string>('');
+
+  useEffect(() => {
+    const fetchVersion = async () => {
+      try {
+        const response = await fetch('/api/version');
+        const data = await response.json();
+        setVersion(data.version);
+      } catch (error) {
+        console.error('Error fetching version:', error);
+      }
+    };
+
+    fetchVersion();
+  }, []);
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 sticky top-0 z-50">
       <div className="flex justify-between items-center gap-4">
-        
         <h1 className="text-2xl font-bold text-gray-900 whitespace-nowrap">
-          {t('admin.title', 'Admin Panel')}
+          {t('admin.title', 'Панель управления')} <span className="text-sm">v{version}</span>
         </h1>
         <div className="flex-1 max-w-xl">
           <div className="flex items-center gap-4">
@@ -37,7 +52,6 @@ export default function AdminHeader({
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-full px-2 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            
           </div>
         </div>
         <div className="flex gap-2 whitespace-nowrap">
