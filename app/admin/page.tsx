@@ -14,6 +14,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [editItem, setEditItem] = useState<DataItem | null>(null)
+  const [mode, setMode] = useState<'add' | 'edit'>('add')
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredData, setFilteredData] = useState<DataItem[]>([])
@@ -138,10 +139,12 @@ export default function AdminPage() {
       figures: []
     }
     setEditItem(newItem)
+    setMode('add')
   }, [])
 
   const handleEdit = useCallback((item: DataItem) => {
     setEditItem(item)
+    setMode('edit')
   }, [])
 
   const handleSelect = useCallback((id: string, selected: boolean) => {
@@ -212,6 +215,7 @@ export default function AdminPage() {
         {editItem && (
           <AdminItemForm
             item={editItem}
+            mode={mode}
             onSave={handleSave}
             onCancel={() => setEditItem(null)}
             existingManufacturers={existingManufacturers}

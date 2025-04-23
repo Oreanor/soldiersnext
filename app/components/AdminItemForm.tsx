@@ -14,9 +14,10 @@ interface AdminItemFormProps {
   existingManufacturers: string[]
   existingScales: string[]
   existingFolders: string[]
+  mode: 'add' | 'edit'
 }
 
-export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, existingScales, existingFolders }: AdminItemFormProps) {
+export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, existingScales, existingFolders, mode }: AdminItemFormProps) {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<DataItem>({
     id: item.id,
@@ -48,12 +49,12 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
 
   // Load existing image when editing
   useEffect(() => {
-    if (item.id !== '0' && item.img) {
+    if (mode === 'edit' && item.img) {
       // Construct the full path to the image
       const imagePath = `http://localhost:3000/data/images/${item.folder}/${item.img}`;
       setImagePreview(imagePath);
     }
-  }, [item.id, item.img, item.folder]);
+  }, [mode, item.img, item.folder]);
 
   useEffect(() => {
     if (manufacturerInput) {
@@ -243,12 +244,12 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
       <div className="bg-white p-4 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">
-            {item.id === '0' ? t('admin.form.title') : t('admin.form.editTitle')}
+            {mode === 'add' ? t('admin.form.title') : t('admin.form.editTitle')}
           </h2>
           <button
             type="button"
             onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 hover:text-gray-700 cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

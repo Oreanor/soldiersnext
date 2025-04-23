@@ -25,14 +25,14 @@ function AdminItemCard({ item, onEdit, onDelete, isSelected, onSelect, version =
       <div className="absolute top-2 right-2 flex space-x-2 z-10">
         <button
           onClick={handleEdit}
-          className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+          className="p-2 text-blue-600 hover:bg-blue-50 rounded cursor-pointer"
           title={t('admin.card.edit', 'Edit')}
         >
           {EDIT_ICON}
         </button>
         <button
           onClick={handleDelete}
-          className="p-2 text-red-600 hover:bg-red-50 rounded"
+          className="p-2 text-red-600 hover:bg-red-50 rounded cursor-pointer"
           title={t('admin.card.delete', 'Delete')}
         >
           {DELETE_ICON}

@@ -45,14 +45,14 @@ export default function AdminHeader({
             <div className="flex gap-2">
               <button
                 onClick={onBulkDelete}
-                className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors flex items-center gap-2"
+                className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors flex items-center gap-2 cursor-pointer"
               >
                 {DELETE_ICON}
                 {t('admin.bulkDelete', 'Delete Selected')} ({selectedItems.size})
               </button>
               <button
                 onClick={onDeselectAll}
-                className="px-2 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                className="px-2 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors cursor-pointer"
               >
                 {t('admin.deselectAll', 'Deselect All')}
               </button>
@@ -60,7 +60,7 @@ export default function AdminHeader({
           )}
           <button
             onClick={onAddNew}
-            className="px-2 py-1 bg-green-600  text-sm text-white rounded hover:bg-green-700 transition-colors flex items-center gap-2"
+            className="px-2 py-1 bg-green-600 text-sm text-white rounded hover:bg-green-700 transition-colors flex items-center gap-2 cursor-pointer"
           >
             {ADD_ICON}
             {t('admin.addNew', 'Add New Item')}
