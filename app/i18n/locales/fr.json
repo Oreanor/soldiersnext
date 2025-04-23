@@ -24,6 +24,8 @@
     "round": "Rond"
   },
   "admin": {
+    "login": "Connexion au panneau d'administration",
+    "enter": "Entrer",
     "title": "Panneau d'administration",
     "searchPlaceholder": "Rechercher par nom ou fabricant...",
     "bulkDelete": "Supprimer la sélection",

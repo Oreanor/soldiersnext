@@ -1,6 +1,6 @@
 {
   "App": {
-    "title": "Żołnierzyki zabawkowe"
+    "title": "Żołnierzyki"
   },
   "LeftPanel": {
     "searchPlaceholder": "Nazwa/producent",
@@ -10,7 +10,7 @@
     "scale": "Skala:",
     "type": "Typ:",
     "showFavorites": "Pokaż ulubione",
-    "showAll": "Pokaż wszystkie"
+    "showAll": "Pokaż wszystko"
   },
   "Overlay": {
     "generalImage": "Obraz ogólny"
@@ -24,6 +24,8 @@
     "round": "Okrągły"
   },
   "admin": {
+    "login": "Logowanie do panelu administracyjnego",
+    "enter": "Wejdź",
     "title": "Panel administracyjny",
     "searchPlaceholder": "Szukaj po nazwie lub producencie...",
     "bulkDelete": "Usuń zaznaczone",

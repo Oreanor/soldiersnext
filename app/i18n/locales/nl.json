@@ -9,8 +9,8 @@
     "manufacturer": "Fabrikant:",
     "scale": "Schaal:",
     "type": "Type:",
-    "showFavorites": "Favorieten tonen",
-    "showAll": "Alles tonen"
+    "showFavorites": "Toon favorieten",
+    "showAll": "Toon alles"
   },
   "Overlay": {
     "generalImage": "Algemene afbeelding"
@@ -24,6 +24,8 @@
     "round": "Rond"
   },
   "admin": {
+    "login": "Inloggen beheerderspaneel",
+    "enter": "Inloggen",
     "title": "Beheerderspaneel",
     "searchPlaceholder": "Zoeken op naam of fabrikant...",
     "bulkDelete": "Geselecteerde verwijderen",

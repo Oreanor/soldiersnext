@@ -1,6 +1,6 @@
 {
   "App": {
-    "title": "Soldatini"
+    "title": "Soldati giocattolo"
   },
   "LeftPanel": {
     "searchPlaceholder": "Nome/produttore",
@@ -24,6 +24,8 @@
     "round": "Rotondo"
   },
   "admin": {
+    "login": "Accesso al pannello di amministrazione",
+    "enter": "Entra",
     "title": "Pannello di amministrazione",
     "searchPlaceholder": "Cerca per nome o produttore...",
     "bulkDelete": "Elimina selezionati",

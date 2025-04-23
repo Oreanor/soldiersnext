@@ -24,6 +24,8 @@
     "round": "Round"
   },
   "admin": {
+    "login": "Admin Panel Login",
+    "enter": "Enter",
     "title": "Admin Panel",
     "searchPlaceholder": "Search by name or manufacturer...",
     "bulkDelete": "Delete Selected",

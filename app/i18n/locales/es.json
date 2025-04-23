@@ -24,6 +24,8 @@
     "round": "Redondo"
   },
   "admin": {
+    "login": "Inicio de sesión del panel de administración",
+    "enter": "Entrar",
     "title": "Panel de administración",
     "searchPlaceholder": "Buscar por nombre o fabricante...",
     "bulkDelete": "Eliminar seleccionados",

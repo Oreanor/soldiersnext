@@ -24,6 +24,8 @@
     "round": "Rund"
   },
   "admin": {
+    "login": "Admin-Panel Anmeldung",
+    "enter": "Eintreten",
     "title": "Admin-Panel",
     "searchPlaceholder": "Nach Name oder Hersteller suchen...",
     "bulkDelete": "Ausgewählte löschen",
