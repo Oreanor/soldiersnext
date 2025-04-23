@@ -23,25 +23,43 @@ export default function AdminHeader({
   const { t } = useTranslation();
   const [version, setVersion] = useState<string>('');
 
-  useEffect(() => {
-    const fetchVersion = async () => {
-      try {
-        const response = await fetch('/api/version');
-        const data = await response.json();
-        setVersion(data.version);
-      } catch (error) {
-        console.error('Error fetching version:', error);
-      }
-    };
+  const fetchVersion = async () => {
+    try {
+      const response = await fetch('/api/version');
+      const data = await response.json();
+      setVersion(data.version);
+    } catch (error) {
+      console.error('Error fetching version:', error);
+    }
+  };
 
+  const handleUpdateVersion = async () => {
+    try {
+      const response = await fetch('/api/version', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      setVersion(data.version);
+    } catch (error) {
+      console.error('Error updating version:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchVersion();
   }, []);
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 sticky top-0 z-50">
       <div className="flex justify-between items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900 whitespace-nowrap">
-          {t('admin.title', 'Панель управления')} <span className="text-sm">v{version}</span>
+        <h1 className="text-2xl font-bold text-gray-900 whitespace-nowrap flex items-center gap-2">
+          {t('admin.title', 'Панель управления')}
+          <button
+            onClick={handleUpdateVersion}
+            className="text-sm px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded transition-colors"
+          >
+            v{version}
+          </button>
         </h1>
         <div className="flex-1 max-w-xl">
           <div className="flex items-center gap-4">
