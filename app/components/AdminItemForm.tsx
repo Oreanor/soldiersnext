@@ -122,13 +122,25 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
         uploadFormData.append('folder', formData.folder)
 
         try {
+          console.log('Uploading file:', { fileName: file.name, folder: formData.folder })
           const uploadResponse = await fetch('/api/admin/upload', {
             method: 'POST',
             body: uploadFormData,
+            headers: {
+              'Accept': 'application/json'
+            }
           })
 
           if (!uploadResponse.ok) {
-            throw new Error('Failed to upload image')
+            let errorMessage = 'Failed to upload image'
+            try {
+              const errorData = await uploadResponse.json()
+              errorMessage = errorData.error || errorMessage
+            } catch (e) {
+              console.error('Failed to parse error response:', e)
+              errorMessage = `Server error: ${uploadResponse.status} ${uploadResponse.statusText}`
+            }
+            throw new Error(errorMessage)
           }
 
           // Update the image name to 00.jpg
@@ -138,6 +150,7 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
           }))
         } catch (error) {
           console.error('Error uploading image:', error)
+          alert(`Ошибка загрузки изображения: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`)
           return
         }
       }
@@ -478,13 +491,13 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
             >
               {t('admin.form.cancel')}
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
             >
               {t('admin.form.save')}
             </button>
