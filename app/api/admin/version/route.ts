@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
-export async function PUT(request: NextRequest) {
+export async function PUT() {
   try {
     const versionPath = path.join(process.cwd(), 'app/version.json')
     const currentVersion = JSON.parse(fs.readFileSync(versionPath, 'utf-8'))
