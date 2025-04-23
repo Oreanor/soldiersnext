@@ -99,6 +99,11 @@ export default function AdminPage() {
 
   const handleSave = useCallback(async (item: DataItem) => {
     try {
+      if (!item.name || !item.manufacturer) {
+        alert('Name and manufacturer are required fields')
+        return
+      }
+
       const isNewItem = !data.some(existingItem => existingItem.id === item.id)
       const response = await fetch(
         isNewItem ? '/api/admin/data' : `/api/admin/data/${item.id}`,
@@ -112,8 +117,8 @@ export default function AdminPage() {
       )
 
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to save item')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to save item')
       }
 
       await fetchData()

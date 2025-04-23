@@ -44,16 +44,32 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const data = await readData()
-  const newItem = await request.json()
-  
-  // Генерируем новый ID
-  newItem.id = generateId()
-  
-  // Добавляем новый элемент в начало массива
-  data.unshift(newItem)
-  await writeData(data)
-  return NextResponse.json(newItem)
+  try {
+    const data = await readData()
+    let newItem;
+    try {
+      newItem = await request.json()
+    } catch (error) {
+      console.error('Error parsing request body:', error)
+      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
+    }
+    
+    // Проверяем обязательные поля
+    if (!newItem.name || !newItem.manufacturer) {
+      return NextResponse.json({ error: 'Missing required fields: name and manufacturer' }, { status: 400 })
+    }
+    
+    // Генерируем новый ID
+    newItem.id = generateId()
+    
+    // Добавляем новый элемент в начало массива
+    data.unshift(newItem)
+    await writeData(data)
+    return NextResponse.json(newItem)
+  } catch (error) {
+    console.error('Error in POST handler:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }
 
 export async function PUT(request: Request) {
