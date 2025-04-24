@@ -1,21 +1,22 @@
-import { ItemType } from '../types';
+import { DataItem } from '../types';
+import { getData, updateData } from './supabase';
 
 // Базовый URL для API
 const API_BASE_URL = '/api';
 
 // Функция для получения всех элементов
-export async function fetchItems(): Promise<ItemType[]> {
-  const response = await fetch(`${API_BASE_URL}/data`);
-  
-  if (!response.ok) {
-    throw new Error('Failed to fetch items');
+export const fetchItems = async (): Promise<DataItem[]> => {
+  try {
+    const data = await getData();
+    return data;
+  } catch (error) {
+    console.error('Error fetching items:', error);
+    throw error;
   }
-  
-  return response.json();
-}
+};
 
 // Функция для получения элемента по ID
-export async function fetchItemById(id: string): Promise<ItemType> {
+export async function fetchItemById(id: string): Promise<DataItem> {
   const response = await fetch(`${API_BASE_URL}/data/${id}`);
   
   if (!response.ok) {
@@ -25,8 +26,17 @@ export async function fetchItemById(id: string): Promise<ItemType> {
   return response.json();
 }
 
+export const updateItems = async (items: DataItem[]): Promise<void> => {
+  try {
+    await updateData(items);
+  } catch (error) {
+    console.error('Error updating items:', error);
+    throw error;
+  }
+}; 
+
 // Функция для обновления элемента
-export async function updateItem(id: string, data: Partial<ItemType>): Promise<ItemType> {
+export async function updateItem(id: string, data: Partial<DataItem>): Promise<DataItem> {
   const response = await fetch(`${API_BASE_URL}/data/${id}`, {
     method: 'PUT',
     headers: {
@@ -43,7 +53,7 @@ export async function updateItem(id: string, data: Partial<ItemType>): Promise<I
 }
 
 // Функция для удаления элемента
-export async function deleteItem(id: string): Promise<ItemType> {
+export async function deleteItem(id: string): Promise<DataItem> {
   const response = await fetch(`${API_BASE_URL}/data/${id}`, {
     method: 'DELETE',
   });
@@ -55,43 +65,3 @@ export async function deleteItem(id: string): Promise<ItemType> {
   return response.json();
 }
 
-// Функция для получения избранных элементов
-export async function fetchFavorites(): Promise<string[]> {
-  const response = await fetch(`${API_BASE_URL}/favorites`);
-  
-  if (!response.ok) {
-    throw new Error('Failed to fetch favorites');
-  }
-  
-  return response.json();
-}
-
-// Функция для добавления элемента в избранное
-export async function addToFavorites(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/favorites`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id }),
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to add to favorites');
-  }
-}
-
-// Функция для удаления элемента из избранного
-export async function removeFromFavorites(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/favorites`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id }),
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to remove from favorites');
-  }
-} 

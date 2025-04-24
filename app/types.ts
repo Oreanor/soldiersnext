@@ -1,17 +1,3 @@
-export type ItemType = {
-  id: number;
-  name: string;
-  manufacturer: string;
-  scale: string;
-  year: string;
-  folder: string;
-  img: string;
-  material: string;
-  type: string;
-  desc?: string;
-  figures?: { name: string; img: string; desc?: string }[];
-};
-
 export interface Figure {
   name: string;
   img: string;
@@ -23,38 +9,24 @@ export interface DataItem {
   name: string;
   manufacturer: string;
   scale: string;
-  year?: string;
+  year: string;
   folder: string;
   img: string;
   material: string;
   type: string;
   desc?: string;
-  figures: Figure[];
+  figures?: Figure[];
 }
 
-export interface Item {
-  id: number;
-  name: string;
-  manufacturer: string;
-  scale: string;
-  year?: string;
-  folder: string;
-  img: string;
-  material: string;
-  type: string;
-  desc?: string;
-  figures: Figure[];
-} 
-
 export interface OverlayProps {
-  item: ItemType;
+  item: DataItem;
   onClose: () => void;
   initialImageIndex?: number;
 }
 
 export interface CardProps {
-  item: ItemType;
-  onClick?: (item: ItemType) => void;
+  item: DataItem;
+  onClick?: (item: DataItem) => void;
 }
 
 export interface LeftPanelProps {

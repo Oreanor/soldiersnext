@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { supabase } from '../../../utils/supabase'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
@@ -35,41 +34,27 @@ export async function POST(request: Request) {
       )
     }
 
-    // Создаем директорию если не существует
-    const folderPath = path.join(process.cwd(), 'public', 'data', 'images', folder)
-    console.log('Creating folder:', folderPath)
+    // Загружаем файл в Supabase Storage
+    const fileName = `${folder}/00.jpg`
+    console.log('Uploading file to Supabase:', fileName)
     
-    try {
-      await fs.mkdir(folderPath, { recursive: true })
-      console.log('Folder created successfully')
-    } catch (error) {
-      console.error('Error creating folder:', error)
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(fileName, file, {
+        upsert: true,
+        contentType: file.type
+      })
+
+    if (error) {
+      console.error('Error uploading to Supabase:', error)
       return NextResponse.json(
-        { error: 'Failed to create folder' },
+        { error: 'Failed to upload file to Supabase' },
         { status: 500 }
       )
     }
 
-    // Конвертируем файл в буфер
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    // Сохраняем файл как 00.jpg
-    const filePath = path.join(folderPath, '00.jpg')
-    console.log('Saving file to:', filePath)
-    
-    try {
-      await fs.writeFile(filePath, buffer)
-      console.log('File saved successfully')
-    } catch (error) {
-      console.error('Error saving file:', error)
-      return NextResponse.json(
-        { error: 'Failed to save file' },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json({ success: true })
+    console.log('File uploaded successfully to Supabase')
+    return NextResponse.json({ success: true, path: data.path })
   } catch (error) {
     console.error('Error in upload handler:', error)
     return NextResponse.json(

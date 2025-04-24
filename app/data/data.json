@@ -1,7 +1,7 @@
 [
   {
     "id": 0,
-    "name": "Ковбои111",
+    "name": "Ковбои",
     "manufacturer": "Арк Моделс",
     "scale": "1:32",
     "year": "2010-",
@@ -131,7 +131,7 @@
   },
   {
     "id": 3,
-    "name": "Пираты",
+    "name": "Пираты2",
     "manufacturer": "Арк Моделс",
     "scale": "1:32",
     "year": "2010-",
@@ -6595,5 +6595,18 @@
         "img": "08.jpg"
       }
     ]
+  },
+  {
+    "id": "lbyxb8",
+    "name": "44444",
+    "manufacturer": "Charbens",
+    "scale": "1:30",
+    "year": "",
+    "folder": "233232",
+    "img": "",
+    "material": "plastic",
+    "type": "flat",
+    "desc": "",
+    "figures": []
   }
 ]

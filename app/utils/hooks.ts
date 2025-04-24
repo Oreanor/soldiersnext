@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ItemType } from '../types';
+import { DataItem } from '../types';
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -36,7 +36,7 @@ export const useDebounce = <T>(value: T, delay: number): T => {
   return debouncedValue;
 };
 
-export const useTranslatedItem = (item: ItemType) => {
+export const useTranslatedItem = (item: DataItem) => {
   const { t } = useTranslation();
   const itemId = item.id.toString();
 

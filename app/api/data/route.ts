@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { ItemType } from '../../types';
+import { DataItem } from '../../types';
 
 // Путь к файлу данных
 const dataFilePath = path.join(process.cwd(), 'app', 'data', 'data.json');
@@ -17,7 +17,7 @@ export async function GET(
 
     // Читаем файл
     const fileContent = fs.readFileSync(dataFilePath, 'utf8');
-    const data = JSON.parse(fileContent) as ItemType[];
+    const data = JSON.parse(fileContent) as DataItem[];
 
     return NextResponse.json(data);
   } catch (error) {
@@ -31,7 +31,7 @@ export async function POST(
   request: NextRequest
 ): Promise<NextResponse> {
   try {
-    const body = await request.json() as ItemType[];
+    const body = await request.json() as DataItem[];
     
     // Записываем обновленные данные в файл
     fs.writeFileSync(dataFilePath, JSON.stringify(body, null, 2), 'utf8');

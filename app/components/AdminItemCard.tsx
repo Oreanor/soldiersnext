@@ -2,7 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { EDIT_ICON, DELETE_ICON } from '../consts';
 import { DataItem } from '../types';
 import { memo } from 'react';
-import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
+import { getImageUrl } from '../utils/supabase';
 
 interface AdminItemCardProps {
   item: DataItem;
@@ -17,8 +18,8 @@ function AdminItemCard({ item, onEdit, onDelete, isSelected, onSelect, version =
   const { t } = useTranslation();
 
   const handleEdit = () => onEdit(item);
-  const handleDelete = () => onDelete(item.id);
-  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => onSelect?.(item.id, e.target.checked);
+  const handleDelete = () => onDelete(item.id.toString());
+  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => onSelect?.(item.id.toString(), e.target.checked);
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 relative">
@@ -50,8 +51,8 @@ function AdminItemCard({ item, onEdit, onDelete, isSelected, onSelect, version =
       )}
       <div className="relative h-48 mb-4 mt-8">
         {item.img ? (
-          <CldImage
-            src={`images/${item.folder}/${item.img}`}
+          <Image
+            src={getImageUrl(`${item.folder}/${item.img}`)}
             alt={item.name}
             fill
             className="object-cover rounded"

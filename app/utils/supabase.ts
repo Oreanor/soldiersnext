@@ -1,78 +1,120 @@
 import { createClient } from '@supabase/supabase-js';
+import { DataItem } from '../types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Create client with storage only
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  },
+  db: {
+    schema: 'public'
+  }
+});
 
-// Types
-export interface Set {
-  id: number;
-  name: string;
-  manufacturer: string;
-  scale: string;
-  year: string;
-  folder: string;
-  img: string;
-  material: string;
-  type: string;
-  desc: string;
-  figures: string[];
+// Functions for working with data file
+export const getData = async (): Promise<DataItem[]> => {
+  try {
+    console.log('Fetching data from Supabase...')
+    const { data, error } = await supabase.storage
+      .from('data')
+      .download('data.json');
+
+    if (error) {
+      console.error('Error downloading data:', error);
+      throw error;
+    }
+    
+    const text = await data.text();
+    console.log('Raw data from Supabase:', text);
+    
+    const parsedData = JSON.parse(text);
+    console.log('Parsed data items:', parsedData.length);
+    console.log('First item ID:', parsedData[0]?.id);
+    
+    return parsedData;
+  } catch (error) {
+    console.error('Error in getData:', error);
+    throw error;
+  }
+};
+
+export const updateData = async (data: DataItem[]): Promise<void> => {
+  try {
+    console.log('Attempting to update data in Supabase...')
+    console.log('Original data:', JSON.stringify(data, null, 2))
+    
+    // First try to update
+    const { error: updateError } = await supabase.storage
+      .from('data')
+      .update('data.json', JSON.stringify(data), {
+        contentType: 'application/json',
+        cacheControl: 'no-cache'
+      });
+
+    // If update fails, try upload
+    if (updateError) {
+      console.log('Update failed, trying upload...', updateError);
+      const { error: uploadError } = await supabase.storage
+        .from('data')
+        .upload('data.json', JSON.stringify(data), {
+          upsert: true,
+          contentType: 'application/json',
+          cacheControl: 'no-cache'
+        });
+
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw uploadError;
+      }
+    }
+
+    // Verify the upload
+    const { data: verifyData, error: verifyError } = await supabase.storage
+      .from('data')
+      .download('data.json');
+
+    if (verifyError) {
+      console.error('Verification error:', verifyError);
+      throw verifyError;
+    }
+
+    const uploadedContent = await verifyData.text();
+    console.log('Uploaded content:', uploadedContent);
+    
+    const uploadedData = JSON.parse(uploadedContent);
+    console.log('Uploaded data:', JSON.stringify(uploadedData, null, 2));
+    
+    const originalStr = JSON.stringify(data);
+    const uploadedStr = JSON.stringify(uploadedData);
+    
+    if (originalStr !== uploadedStr) {
+      console.error('Data mismatch detected');
+      console.error('Original length:', originalStr.length);
+      console.error('Uploaded length:', uploadedStr.length);
+      console.error('First difference at:', findFirstDifference(originalStr, uploadedStr));
+      throw new Error('Data verification failed');
+    }
+
+    console.log('Data updated and verified successfully in Supabase');
+  } catch (error) {
+    console.error('Error in updateData:', error);
+    throw error;
+  }
+};
+
+function findFirstDifference(str1: string, str2: string): number {
+  const minLength = Math.min(str1.length, str2.length);
+  for (let i = 0; i < minLength; i++) {
+    if (str1[i] !== str2[i]) {
+      return i;
+    }
+  }
+  return minLength;
 }
-
-// Functions for working with sets
-export const getSets = async () => {
-  const { data, error } = await supabase
-    .from('sets')
-    .select('*')
-    .order('id');
-  
-  if (error) throw error;
-  return data as Set[];
-};
-
-export const getSetById = async (id: number) => {
-  const { data, error } = await supabase
-    .from('sets')
-    .select('*')
-    .eq('id', id)
-    .single();
-  
-  if (error) throw error;
-  return data as Set;
-};
-
-export const createSet = async (set: Omit<Set, 'id'>) => {
-  const { data, error } = await supabase
-    .from('sets')
-    .insert([set])
-    .select()
-    .single();
-  
-  if (error) throw error;
-  return data as Set;
-};
-
-export const updateSet = async (id: number, set: Partial<Set>) => {
-  const { data, error } = await supabase
-    .from('sets')
-    .update(set)
-    .eq('id', id)
-    .select()
-    .single();
-  
-  if (error) throw error;
-  return data as Set;
-};
-
-export const deleteSet = async (id: number) => {
-  const { error } = await supabase
-    .from('sets')
-    .delete()
-    .eq('id', id);
-  
-  if (error) throw error;
-};
 
 // Functions for working with images
 export const uploadImage = async (file: File, folder: string) => {

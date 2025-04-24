@@ -69,55 +69,6 @@ async function removeDirectory(dirPath: string): Promise<void> {
   }
 }
 
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
-  try {
-    const url = new URL(request.url)
-    const id = url.pathname.split('/').pop()
-
-    if (!id) {
-      return NextResponse.json(
-        { error: 'ID is required' },
-        { status: 400 }
-      )
-    }
-
-    const data = await getData()
-    console.log('Processing DELETE for id:', id, 'Current items:', data.length)
-    
-    const index = data.findIndex((i: DataItem) => String(i.id) === String(id))
-    
-    if (index === -1) {
-      console.log('Item not found:', id)
-      return NextResponse.json(
-        { error: 'Item not found' },
-        { status: 404 }
-      )
-    }
-
-    // Get the folder path before removing the item
-    const itemFolder = data[index].folder
-    const imagesPath = path.join(process.cwd(), 'public', 'data', 'images', itemFolder)
-    
-    // Remove the item from data
-    data.splice(index, 1)
-    
-    // Save changes
-    await saveData(data)
-    console.log('Item deleted, remaining items:', data.length)
-
-    // Remove the images folder in local environment
-    await removeDirectory(imagesPath)
-    
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    console.error('Error deleting item:', error)
-    return NextResponse.json(
-      { error: 'Failed to delete item' },
-      { status: 500 }
-    )
-  }
-}
-
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
     const url = new URL(request.url)
