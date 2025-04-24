@@ -232,36 +232,38 @@ export default function AdminPage() {
         updatedItem = { ...updatedItem, image: path };
       }
 
-      // Обновляем локальное состояние
-      setData(prev => {
-        const newData = mode === 'add' 
-          ? [updatedItem, ...prev]  // Добавляем новый элемент в начало массива
-          : prev.map(i => i.id === updatedItem.id ? updatedItem : i);
+      // Сначала получаем текущие данные с Supabase
+      const response = await fetch('/api/admin/data');
+      if (!response.ok) {
+        throw new Error('Failed to fetch current data');
+      }
+      const currentData = await response.json();
 
-        // Загружаем обновленные данные на Supabase
-        fetch('/api/admin/data', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newData),
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to update Supabase');
-          }
-          console.log('Data updated in Supabase successfully');
-          // Начинаем верификацию
-          verifyDataUpdate(newData.length, updatedItem);
-        })
-        .catch(err => {
-          console.error('Error updating Supabase:', err);
-          setError(err instanceof Error ? err.message : 'Failed to update Supabase');
-          setIsSaving(false);
-        });
+      // Создаем новый массив данных
+      const newData = mode === 'add' 
+        ? [updatedItem, ...currentData]
+        : currentData.map((i: DataItem) => i.id === updatedItem.id ? updatedItem : i);
 
-        return newData;
+      // Загружаем обновленные данные на Supabase
+      const updateResponse = await fetch('/api/admin/data', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newData),
       });
+
+      if (!updateResponse.ok) {
+        throw new Error('Failed to update Supabase');
+      }
+
+      console.log('Data updated in Supabase successfully');
+      
+      // Обновляем локальное состояние только после успешного сохранения
+      setData(newData);
+      
+      // Начинаем верификацию
+      verifyDataUpdate(newData.length, updatedItem);
 
       setEditItem(null);
       setMode('add');
