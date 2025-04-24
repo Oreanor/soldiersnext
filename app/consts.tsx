@@ -1,4 +1,6 @@
+import path from 'path'
 import React from 'react';
+
 
 export const EDIT_ICON = (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -61,3 +63,9 @@ export const FLAGS = {
   pl: `<svg ${svgAttrs}><path fill="#fff" d="M0 0h640v240H0"/><path fill="#dc143c" d="M0 240h640v240H0"/></svg>`,
   uk: `<svg ${svgAttrs}><path fill="#005BBB" d="M0 0h640v240H0"/><path fill="#FFD500" d="M0 240h640v240H0"/></svg>`,
 } as const; 
+
+export const DATA_FILE_PATH = path.join(process.cwd(), 'app', 'data', 'data.json') 
+
+export const SOLDIER_PLACEHOLDER = (
+  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+); 

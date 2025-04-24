@@ -41,7 +41,7 @@ const LanguageSelector: React.FC = () => {
         <span>{currentLang.name}</span>
       </div>
       {isOpen && (
-        <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded shadow-lg z-[60]">
+        <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded shadow-lg z-[100]">
           {LANGUAGES.map((lang) => (
             <div
               key={lang.code}

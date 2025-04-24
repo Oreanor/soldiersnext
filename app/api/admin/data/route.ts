@@ -2,105 +2,88 @@ import { NextResponse } from 'next/server'
 import { promises as fs } from 'fs'
 import path from 'path'
 import { DataItem } from '@/app/types'
-import { DATA_FILE_PATH } from '@/app/consts/paths'
+import { DATA_FILE_PATH } from '@/app/consts'
+import { getData, saveData } from '@/app/utils/cloudinary'
 
 function generateId(): string {
   return Math.random().toString(36).substring(2, 8);
 }
 
-async function readData(): Promise<DataItem[]> {
-  try {
-    const raw = await fs.readFile(DATA_FILE_PATH, 'utf8')
-    return JSON.parse(raw)
-  } catch (error) {
-    console.error('Error reading data:', error)
-    throw error
-  }
-}
-
-async function writeData(data: DataItem[]) {
-  try {
-    const dirPath = path.dirname(DATA_FILE_PATH)
-    await fs.access(dirPath).catch(async () => {
-      await fs.mkdir(dirPath, { recursive: true })
-    })
-
-    const jsonData = JSON.stringify(data, null, 2)
-    await fs.writeFile(DATA_FILE_PATH, jsonData, 'utf8')
-    
-    const written = await fs.readFile(DATA_FILE_PATH, 'utf8')
-    if (written !== jsonData) {
-      throw new Error('Data verification failed')
-    }
-  } catch (error) {
-    console.error('Error writing data:', error)
-    throw error
-  }
-}
-
 export async function GET() {
-  const data = await readData()
-  return NextResponse.json(data)
+  try {
+    const data = await getData();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error reading data:', error);
+    return NextResponse.json({ error: 'Failed to read data' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
   try {
-    const data = await readData()
-    let newItem;
+    const data = await getData();
+    let newItem: Partial<DataItem>;
     try {
-      newItem = await request.json()
+      newItem = await request.json();
     } catch (error) {
-      console.error('Error parsing request body:', error)
-      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
     }
-    
-    // Проверяем обязательные поля
-    if (!newItem.name || !newItem.manufacturer) {
-      return NextResponse.json({ error: 'Missing required fields: name and manufacturer' }, { status: 400 })
+
+    if (!newItem.id) {
+      newItem.id = generateId();
     }
-    
-    // Генерируем новый ID
-    newItem.id = generateId()
-    
-    // Добавляем новый элемент в начало массива
-    data.unshift(newItem)
-    await writeData(data)
-    return NextResponse.json(newItem)
+
+    data.unshift(newItem as DataItem);
+    await saveData(data);
+
+    return NextResponse.json(newItem);
   } catch (error) {
-    console.error('Error in POST handler:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error saving data:', error);
+    return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request) {
   try {
-    const data = await readData()
-    const updatedItem = await request.json()
-    
-    console.log('Updating item with ID:', updatedItem.id)
-    
-    const index = data.findIndex(item => item.id === updatedItem.id)
-    console.log('Found index:', index)
-    
+    const data = await getData();
+    let updatedItem: Partial<DataItem>;
+    try {
+      updatedItem = await request.json();
+    } catch (error) {
+      return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+    }
+
+    const index = data.findIndex((item: DataItem) => item.id === updatedItem.id);
     if (index === -1) {
-      return NextResponse.json({ error: 'Item not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Item not found' }, { status: 404 });
     }
-    
-    // Обновляем существующий объект, сохраняя id и figures
-    data[index] = {
-      ...data[index],
-      ...updatedItem,
-      id: data[index].id, // Сохраняем оригинальный id
-      figures: data[index].figures // Сохраняем оригинальный массив figures
-    }
-    
-    console.log('Updated item:', data[index])
-    
-    await writeData(data)
-    
-    return NextResponse.json(data[index])
+
+    data[index] = { ...data[index], ...updatedItem };
+    await saveData(data);
+
+    return NextResponse.json(data[index]);
   } catch (error) {
-    console.error('Error in PUT handler:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error updating data:', error);
+    return NextResponse.json({ error: 'Failed to update data' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const data = await getData();
+    const { id } = await request.json();
+
+    const index = data.findIndex((item: DataItem) => item.id === id);
+    if (index === -1) {
+      return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+    }
+
+    data.splice(index, 1);
+    await saveData(data);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting data:', error);
+    return NextResponse.json({ error: 'Failed to delete data' }, { status: 500 });
   }
 } 

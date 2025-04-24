@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { EDIT_ICON, DELETE_ICON } from '../consts';
 import { DataItem } from '../types';
 import { memo } from 'react';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 interface AdminItemCardProps {
   item: DataItem;
@@ -50,8 +50,8 @@ function AdminItemCard({ item, onEdit, onDelete, isSelected, onSelect, version =
       )}
       <div className="relative h-48 mb-4 mt-8">
         {item.img ? (
-          <Image
-            src={`/data/images/${item.folder}/${item.img}?v=${version}`}
+          <CldImage
+            src={`images/${item.folder}/${item.img}`}
             alt={item.name}
             fill
             className="object-cover rounded"

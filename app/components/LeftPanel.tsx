@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
 import TagBlock from './TagBlock';
+import Button from './ui/Button';
 import { TAGS } from '../consts';
 
 interface LeftPanelProps {
@@ -33,7 +34,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="w-full md:w-1/4 min-w-[180px] max-w-[300px] h-full bg-white flex flex-col overflow-hidden">
+    <div className="w-full min-w-[180px] sm:max-w-[300px]  sm:h-full h-auto bg-white flex flex-col overflow-hidden z-10">
       {/* Фиксированная верхняя часть панели */}
       <div className="p-4 flex flex-col gap-4">
         <div className="flex justify-between items-center">
@@ -41,36 +42,35 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
           <LanguageSelector />
         </div>
 
-        <input
-          type="text"
-          placeholder={t('LeftPanel.searchPlaceholder')}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-2 py-1 border border-gray-300 rounded"
-        />
+        <div className="flex flex-row sm:flex-col gap-2">
+          <input
+            type="text"
+            placeholder={t('LeftPanel.searchPlaceholder')}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full px-2 py-1 border border-gray-300 rounded"
+          />
 
-        <div className="flex gap-2">
-          <div
-            onClick={onToggleFavorites}
-            className={`px-2 py-1 text-xs rounded cursor-pointer inline-block w-fit border ${
-              showFavorites 
-                ? 'bg-red-500 text-white border-red-500' 
-                : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-gray-200'
-            }`}
-          >
-            {showFavorites ? t('LeftPanel.showAll') : t('LeftPanel.showFavorites')}
-          </div>
-          <div
-            onClick={onResetAll}
-            className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 rounded cursor-pointer inline-block w-fit border border-gray-200"
-          >
-            {t('LeftPanel.resetFilters')}
+          <div className="flex gap-2">
+            <Button
+              onClick={onToggleFavorites}
+              variant={showFavorites ? 'danger' : 'primary'}
+            >
+              {showFavorites ? t('LeftPanel.showAll') : t('LeftPanel.showFavorites')}
+            </Button>
+            <Button
+              onClick={onResetAll}
+              variant="secondary"
+              className="hidden sm:inline-block"
+            >
+              {t('LeftPanel.resetFilters')}
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Скроллируемая часть с тегами */}
-      <div className="flex-1 overflow-y-auto p-4 pt-0">
+      <div className="flex-1 overflow-y-auto p-4 pt-0 hidden sm:block">
         {Object.entries(TAGS).map(([key]) => (
           <div key={key} className="mb-4">
             <div className="mb-1 font-semibold">{t(`LeftPanel.${key}`)}</div>

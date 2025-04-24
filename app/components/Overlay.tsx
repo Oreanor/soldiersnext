@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { OverlayProps } from '../types';
 import { IMAGE_PATH } from '../consts';
 import Image from 'next/image';
+import { getImageUrl } from '../utils/supabase';
 
 const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 }) => {
   const { t } = useTranslation();
   const overlayRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   
   // Main image is always first
   const images = [item.img, ...(item.figures?.map(f => f.img) || [])];
@@ -58,11 +60,15 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
     };
   }, [mainIdx]);
 
+  const handleImageLoad = (image: string) => {
+    setLoadedImages(prev => new Set(prev).add(image));
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={onClose}>
       <div 
         ref={overlayRef}
-        className="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full relative" 
+        className="bg-white rounded-lg shadow-lg py-6 px-10 max-w-4xl w-full relative" 
         onClick={e => e.stopPropagation()}
         style={{ transform: `scale(${scale})`, transformOrigin: 'center center' }}
       >
@@ -74,20 +80,21 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
         </div>
         <div className="font-bold text-2xl mb-2">{item.name}</div>
         <div className="text-gray-600 mb-2 italic">{[item.manufacturer, item.year, item.scale].filter(Boolean).join(', ')}</div>
-        {item.desc && mainIdx === 0 && <div className="mb-4 text-gray-700 text-sm">{item.desc}</div>}
+        {item.desc && <div className="mb-4 text-gray-700 text-sm">{item.desc}</div>}
         
         <div className="flex gap-4 mb-8 justify-center">
-          <div className="flex-1 max-w-[600px]">
+          <div className="flex-1">
             <div className="relative aspect-square max-h-[50vh] w-full">
               {images[mainIdx] ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Image
-                    src={`${IMAGE_PATH}/${item.folder}/${images[mainIdx]}`}
+                    src={getImageUrl(`${item.folder}/${images[mainIdx]}`)}
                     alt={figureNames[mainIdx] || item.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain rounded"
+                    className={`object-contain rounded transition-opacity duration-300 ${loadedImages.has(images[mainIdx]) ? 'opacity-100' : 'opacity-0'}`}
                     priority
+                    onLoadingComplete={() => handleImageLoad(images[mainIdx])}
                   />
                 </div>
               ) : (
@@ -96,43 +103,38 @@ const Overlay: React.FC<OverlayProps> = ({ item, onClose, initialImageIndex = 0 
                 </div>
               )}
             </div>
-            <div className="text-center text-xs my-2 min-h-[1.5em]">
-              {mainIdx === 0 ? t('Overlay.generalImage') : (figureNames[mainIdx] || '')}
-            </div>
           </div>
           
-          {mainIdx > 0 && item.figures && item.figures[mainIdx - 1] && item.figures[mainIdx - 1].desc && (
-            <div className="w-64 shrink-0 flex flex-col h-[40vh]">
+          {mainIdx > 0 && item.figures && item.figures[mainIdx - 1]?.desc ? (
+            <div className="w-100 shrink-0 flex flex-col h-[45vh]">
               <div className="flex-1 overflow-y-auto">
                 <div className="text-sm text-gray-700 pr-2">
                   {item.figures[mainIdx - 1].desc}
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
-        
-        
-        {images.length > 1 && (
-          <div>
-            <div className="flex flex-wrap gap-2 justify-center p-2">
-              {images.map((img, idx) => (
-                <div 
-                  key={`${item.id}-${idx}`} 
-                  className="relative w-[50px] h-[50px] cursor-pointer"
-                  onClick={() => setMainIdx(idx)}
-                >
-                  <Image
-                    src={`${IMAGE_PATH}/${item.folder}/${img}`}
-                    alt={figureNames[idx] || t('Overlay.generalImage')}
-                    fill
-                    sizes="50px"
-                    className={`object-contain rounded ${mainIdx === idx ? 'ring-2 ring-blue-400' : ''}`}
-                  />
-                </div>
-              ))}
-            </div>
+        {item.figures && (
+          <div className="flex flex-wrap gap-2 justify-center p-2">
+            {images.map((img, idx) => (
+              <div 
+                key={`${item.id}-${idx}`} 
+                className="relative w-[50px] h-[50px] cursor-pointer"
+                onClick={() => setMainIdx(idx)}
+              >
+                <Image
+                  src={getImageUrl(`${item.folder}/${img}`)}
+                  alt={figureNames[idx] || t('Overlay.generalImage')}
+                  fill
+                  sizes="50px"
+                  className={`object-contain rounded transition-opacity duration-300 ${loadedImages.has(img) ? 'opacity-100' : 'opacity-0'} ${mainIdx === idx ? 'ring-2 ring-blue-400' : ''}`}
+                  priority
+                  onLoadingComplete={() => handleImageLoad(img)}
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>

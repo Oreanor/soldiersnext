@@ -9,7 +9,8 @@ import { ItemType } from './types';
 import { TAGS } from './consts';
 import { getUniqueTags } from './utils';
 import { useDebounce } from './utils/hooks';
-import { fetchItems, fetchFavorites, addToFavorites, removeFromFavorites } from './utils/api';
+import { fetchItems } from './utils/api';
+import { getFavorites } from './utils/cookies';
 import './i18n';
 import Spinner from './components/ui/Spinner'
 
@@ -19,7 +20,6 @@ function App() {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
   const [activeTags, setActiveTags] = useState<{ [key: string]: string[] }>({});
-  const [favorites, setFavorites] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [initialImageIndex, setInitialImageIndex] = useState<number>(0);
   const [items, setItems] = useState<ItemType[]>([]);
@@ -49,22 +49,6 @@ function App() {
 
     if (mounted) {
       loadData();
-    }
-  }, [mounted]);
-
-  // Загрузка избранных элементов с сервера
-  useEffect(() => {
-    const loadFavorites = async () => {
-      try {
-        const data = await fetchFavorites();
-        setFavorites(data);
-      } catch (err) {
-        console.error('Error fetching favorites:', err);
-      }
-    };
-
-    if (mounted) {
-      loadFavorites();
     }
   }, [mounted]);
 
@@ -104,26 +88,6 @@ function App() {
     }
   }, [selected, mounted]);
 
-  // Добавление/удаление из избранного
-  const toggleFavorite = async (id: number) => {
-    const idStr = id.toString();
-    const isFavorite = favorites.includes(idStr);
-    
-    try {
-      if (isFavorite) {
-        // Удаляем из избранного
-        await removeFromFavorites(idStr);
-        setFavorites(prev => prev.filter(favId => favId !== idStr));
-      } else {
-        // Добавляем в избранное
-        await addToFavorites(idStr);
-        setFavorites(prev => [...prev, idStr]);
-      }
-    } catch (err) {
-      console.error('Error toggling favorite:', err);
-    }
-  };
-
   const tags = {
     [TAGS.material]: getUniqueTags(items, TAGS.material),
     [TAGS.manufacturer]: getUniqueTags(items, TAGS.manufacturer),
@@ -154,7 +118,7 @@ function App() {
       if (values.length === 0) return true;
       return values.includes(item[param as keyof typeof item] as string);
     });
-    const matchesFavorites = !showFavorites || favorites.includes(item.id.toString());
+    const matchesFavorites = !showFavorites || getFavorites().includes(item.id.toString());
     return matchesSearch && matchesTags && matchesFavorites;
   });
 
@@ -172,44 +136,41 @@ function App() {
   }
 
   return (
-    <div className="flex w-full h-screen">
-      <LeftPanel
-        search={search}
-        setSearch={setSearch}
-        tags={tags}
-        onTagClick={handleTagClick}
-        activeTags={activeTags}
-        onResetAll={handleResetAll}
-        showFavorites={showFavorites}
-        onToggleFavorites={() => setShowFavorites(!showFavorites)}
-      />
-      <div className="flex flex-col w-full relative">
-        <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[10px] sm:gap-3 md:gap-4 lg:gap-6 items-start">
+    <div className="flex flex-col sm:flex-row w-full h-screen overflow-hidden">
+      <div className="h-auto sm:h-full shrink-0">
+        <LeftPanel
+          search={search}
+          setSearch={setSearch}
+          tags={tags}
+          onTagClick={handleTagClick}
+          activeTags={activeTags}
+          onResetAll={handleResetAll}
+          showFavorites={showFavorites}
+          onToggleFavorites={() => setShowFavorites(!showFavorites)}
+        />
+      </div>
+      <div className="flex flex-col w-full relative flex-1 min-h-0">
+        <div className="flex-1 overflow-y-auto p-4 bg-gray-50 h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 items-start">
             {filteredItems.map((item: ItemType) => (
               <Card
                 key={item.id}
                 item={item}
                 onClick={() => setSelected(item)}
-                isFavorite={favorites.includes(item.id.toString())}
-                onToggleFavorite={toggleFavorite}
               />
             ))}
           </div>
         </div>
       </div>
       {selected && (
-        <Overlay 
-          item={selected} 
-          onClose={() => {
-            setSelected(null);
-            setInitialImageIndex(0);
-          }} 
+        <Overlay
+          item={selected}
+          onClose={() => setSelected(null)}
           initialImageIndex={initialImageIndex}
         />
       )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -2,15 +2,12 @@ import React from 'react';
 
 interface FavoriteButtonProps {
   isFavorite: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ isFavorite, onClick }) => (
   <div
-    onClick={(e) => {
-      e.stopPropagation();
-      onClick();
-    }}
+    onClick={onClick}
     className={`absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full transition-colors z-20 ${
       isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'
     }`}
