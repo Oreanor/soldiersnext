@@ -11,10 +11,9 @@ interface AdminItemCardProps {
   onDelete: (id: string) => void;
   isSelected?: boolean;
   onSelect?: (id: string, selected: boolean) => void;
-  version?: number;
 }
 
-function AdminItemCard({ item, onEdit, onDelete, isSelected, onSelect, version = 0 }: AdminItemCardProps) {
+function AdminItemCard({ item, onEdit, onDelete, isSelected, onSelect }: AdminItemCardProps) {
   const { t } = useTranslation();
 
   const handleEdit = () => onEdit(item);

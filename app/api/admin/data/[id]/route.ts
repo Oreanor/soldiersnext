@@ -59,16 +59,6 @@ async function saveData(data: DataItem[]): Promise<void> {
   }
 }
 
-async function removeDirectory(dirPath: string): Promise<void> {
-  if (!isVercel) {
-    try {
-      await fs.rm(dirPath, { recursive: true, force: true })
-    } catch (error) {
-      console.error('Error removing directory:', error)
-    }
-  }
-}
-
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
     const url = new URL(request.url)

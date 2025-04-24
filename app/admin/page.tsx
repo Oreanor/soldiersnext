@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import AdminItemCard from '../components/AdminItemCard'
 import { AdminItemForm } from '../components/AdminItemForm'
 import AdminHeader from '../components/AdminHeader'
-import SavingOverlay from '../components/SavingOverlay'
 import { DataItem } from '../types'
 import { generateId } from '../utils/utils'
 import PasswordForm from '../components/PasswordForm'
@@ -19,7 +18,6 @@ export default function AdminPage() {
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredData, setFilteredData] = useState<DataItem[]>([])
-  const [imageVersion, setImageVersion] = useState(0)
   const [isSaving, setIsSaving] = useState(false)
   const [verificationInterval, setVerificationInterval] = useState<NodeJS.Timeout | null>(null)
   const listContainerRef = useRef<HTMLDivElement>(null)
@@ -251,7 +249,6 @@ export default function AdminPage() {
         return updatedData;
       });
 
-      setImageVersion(prev => prev + 1);
       setEditItem(null);
       setSelectedItems(new Set());
     } catch (err) {
@@ -366,7 +363,6 @@ export default function AdminPage() {
                 onDelete={handleDelete}
                 isSelected={selectedItems.has(item.id)}
                 onSelect={handleSelect}
-                version={imageVersion}
               />
             ))}
           </div>

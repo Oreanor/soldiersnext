@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { CardProps } from '../../types';
 import FavoriteButton from './FavoriteButton';
-import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 import { isFavorite, addToFavorites, removeFromFavorites } from '../../utils/cookies';
 import { getImageUrl } from '../../utils/supabase';
 
 const Card: React.FC<CardProps> = ({ item, onClick }) => {
-  const { t } = useTranslation();
   const [favorite, setFavorite] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverlayProps } from '../types';
-import { IMAGE_PATH } from '../consts';
 import Image from 'next/image';
 import { getImageUrl } from '../utils/supabase';
 
