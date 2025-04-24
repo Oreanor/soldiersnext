@@ -22,6 +22,7 @@ export default function AdminHeader({
 }: AdminHeaderProps) {
   const { t } = useTranslation();
   const [version, setVersion] = useState<string>('');
+  const isDevelopment = process.env.NODE_ENV === 'development';
 
   const fetchVersion = async () => {
     try {
@@ -34,6 +35,8 @@ export default function AdminHeader({
   };
 
   const handleUpdateVersion = async () => {
+    if (!isDevelopment) return;
+    
     try {
       const response = await fetch('/api/version', {
         method: 'POST',
@@ -56,7 +59,13 @@ export default function AdminHeader({
           {t('admin.title', 'Панель управления')}
           <button
             onClick={handleUpdateVersion}
-            className="text-sm px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded transition-colors"
+            className={`text-sm px-2 py-1 rounded transition-colors ${
+              isDevelopment 
+                ? 'bg-blue-100 hover:bg-blue-200 text-blue-800 cursor-pointer' 
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            }`}
+            disabled={!isDevelopment}
+            title={isDevelopment ? 'Update version' : 'Version updates disabled in production'}
           >
             v{version}
           </button>
