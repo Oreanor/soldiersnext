@@ -210,35 +210,49 @@ export default function AdminPage() {
   const handleSave = useCallback(async (item: DataItem) => {
     try {
       setIsSaving(true);
-      if (!item.name || !item.manufacturer) {
-        alert('Name and manufacturer are required fields')
-        setIsSaving(false);
-        return
+      let updatedItem = { ...item };
+
+      // Если есть файл, сначала загружаем его
+      if (item.file) {
+        const formData = new FormData();
+        formData.append('file', item.file);
+        formData.append('folder', item.folder);
+
+        const uploadResponse = await fetch('/api/admin/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          const error = await uploadResponse.json();
+          throw new Error(error.error || 'Failed to upload image');
+        }
+
+        const { path } = await uploadResponse.json();
+        updatedItem = { ...updatedItem, image: path };
       }
 
-      console.log('Saving item:', item)
-      
       // Обновляем локальное состояние
       setData(prev => {
-        const updatedData = prev.map(existingItem => 
-          existingItem.id === item.id ? item : existingItem
-        );
-        
+        const newData = mode === 'add' 
+          ? [updatedItem, ...prev]  // Добавляем новый элемент в начало массива
+          : prev.map(i => i.id === updatedItem.id ? updatedItem : i);
+
         // Загружаем обновленные данные на Supabase
         fetch('/api/admin/data', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(updatedData),
+          body: JSON.stringify(newData),
         })
         .then(response => {
           if (!response.ok) {
             throw new Error('Failed to update Supabase');
           }
           console.log('Data updated in Supabase successfully');
-          // Начинаем проверку
-          verifyDataUpdate(updatedData.length, item);
+          // Начинаем верификацию
+          verifyDataUpdate(newData.length, updatedItem);
         })
         .catch(err => {
           console.error('Error updating Supabase:', err);
@@ -246,17 +260,17 @@ export default function AdminPage() {
           setIsSaving(false);
         });
 
-        return updatedData;
+        return newData;
       });
 
       setEditItem(null);
-      setSelectedItems(new Set());
+      setMode('add');
     } catch (err) {
-      console.error('Error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to save');
+      console.error('Error saving item:', err);
+      setError(err instanceof Error ? err.message : 'Failed to save item');
       setIsSaving(false);
     }
-  }, [verifyDataUpdate]);
+  }, [mode, verifyDataUpdate]);
 
   const handleAddNew = useCallback(() => {
     const newItem: DataItem = {

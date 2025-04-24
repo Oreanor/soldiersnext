@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { DataItem } from '../types'
 import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
+import { getImageUrl } from '../utils/supabase'
 
 // Захардкоженные значения для материала и типа
 const MATERIAL_OPTIONS = ['plastic', 'metal'] as const
@@ -50,8 +51,7 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
   // Load existing image when editing
   useEffect(() => {
     if (mode === 'edit' && item.img) {
-      // Construct the full path to the image
-      const imagePath = `http://localhost:3000/data/images/${item.folder}/${item.img}`;
+      const imagePath = getImageUrl(`${item.folder}/${item.img}`);
       setImagePreview(imagePath);
     }
   }, [mode, item.img, item.folder]);
@@ -165,7 +165,7 @@ export function AdminItemForm({ item, onSave, onCancel, existingManufacturers, e
       
       // Update preview only after successful save
       if (formData.img) {
-        setImagePreview(`/data/images/${formData.folder}/${formData.img}?t=${Date.now()}`)
+        setImagePreview(getImageUrl(`${formData.folder}/${formData.img}`))
       }
     } catch (error) {
       console.error('Error saving item:', error)

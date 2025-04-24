@@ -12,10 +12,12 @@ export interface DataItem {
   year: string;
   folder: string;
   img: string;
+  image?: string;
   material: string;
   type: string;
   desc?: string;
   figures?: Figure[];
+  file?: File;
 }
 
 export interface OverlayProps {

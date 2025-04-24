@@ -34,13 +34,17 @@ export async function POST(request: Request) {
       )
     }
 
+    // Читаем содержимое файла как ArrayBuffer
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+
     // Загружаем файл в Supabase Storage
     const fileName = `${folder}/00.jpg`
     console.log('Uploading file to Supabase:', fileName)
     
     const { data, error } = await supabase.storage
       .from('images')
-      .upload(fileName, file, {
+      .upload(fileName, buffer, {
         upsert: true,
         contentType: file.type
       })
